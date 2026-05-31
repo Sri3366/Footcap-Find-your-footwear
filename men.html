@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Footcap - Men's Collection</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
+     :root {
+      /* Premium Unified Palette */
+      --lux-black: #0c0c0e;
+      --lux-charcoal: #16161a;
+      --lux-cream: #f9f8f6;
+      --lux-gray-100: #f1f0ec;
+      --lux-gray-400: #8a8985;
+      --lux-accent: #d91a24; 
+      --bittersweet: #ff6b6b;
+
+      /* Typography Scales */
+      --ff-display: 'Josefin Sans', sans-serif;
+      --ff-body: 'Roboto', sans-serif;
+
+      /* Cinema Transitions */
+      --transition-smooth: 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+      --transition-fast: 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+      
+      /* Luxury Shadow */
+      --shadow-premium: 0 20px 40px rgba(0, 0, 0, 0.04);
+      --shadow-hover: 0 30px 60px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Base Layout Support Elements */
+    body {
+      margin: 0;
+      font-family: var(--ff-body);
+      background-color: #fff;
+      color: var(--lux-black);
+      transition: background-color var(--transition-fast), color var(--transition-fast);
+    }
+
+    /* --- DYNAMIC DARK MODE THEME RULES --- */
+    body.dark-mode {
+      background-color: var(--lux-charcoal);
+      color: var(--lux-cream);
+    }
+    body.dark-mode .header, 
+    body.dark-mode .quick-view-content {
+      background: var(--lux-black);
+      border-color: #24242b;
+    }
+    body.dark-mode .navbar-link, 
+    body.dark-mode .brand-title, 
+    body.dark-mode .card-title,
+    body.dark-mode .nav-action-btn,
+    body.dark-mode .write-review-link {
+      color: var(--lux-cream);
+    }
+    body.dark-mode .write-review-link {
+      border-color: var(--lux-cream);
+    }
+    body.dark-mode .search-box {
+      background: #24242b;
+    }
+    body.dark-mode #search-input {
+      color: #fff;
+    }
+    body.dark-mode .card-action-list {
+      background: rgba(12, 12, 14, 0.95);
+    }
+    body.dark-mode .card-action-btn {
+      color: var(--lux-cream);
+    }
+    body.dark-mode .card-action-btn:hover {
+      background: var(--lux-accent);
+    }
+    body.dark-mode .filter-btn {
+      background: #24242b;
+      color: var(--lux-cream);
+    }
+    body.dark-mode .filter-btn.active,
+    body.dark-mode .filter-btn:hover {
+      background: var(--lux-cream);
+      color: var(--lux-black);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .section {
+      padding: 60px 0;
+    }
+
+    /* Header & Navigation Formatting */
+    .header {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--lux-gray-100);
+      background: #fff;
+      transition: background-color var(--transition-fast), border-color var(--transition-fast);
+    }
+
+    .header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-title {
+      font-family: var(--ff-display);
+      font-size: 28px;
+      font-weight: 700;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--lux-black);
+    }
+
+    .brand-title span {
+      color: var(--lux-accent);
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .navbar-list, .nav-action-list {
+      display: flex;
+      align-items: center;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      gap: 25px;
+    }
+
+    .navbar-link {
+      text-decoration: none;
+      color: var(--lux-black);
+      font-family: var(--ff-display);
+      font-weight: 500;
+      text-transform: uppercase;
+      font-size: 14px;
+      letter-spacing: 1px;
+      transition: var(--transition-fast);
+    }
+
+    .navbar-link:hover, .navbar-link.active {
+      color: var(--lux-accent);
+    }
+
+    .nav-action-btn {
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: var(--lux-black);
+      position: relative;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    /* Counter Badge Styling */
+    .nav-action-badge {
+      position: absolute;
+      top: -5px;
+      right: -8px;
+      background: var(--lux-accent);
+      color: #fff;
+      font-size: 11px;
+      font-family: var(--ff-body);
+      font-weight: 700;
+      min-width: 18px;
+      height: 18px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      padding: 1px;
+    }
+
+    .search-box {
+      display: flex;
+      background: var(--lux-gray-100);
+      padding: 6px 14px;
+      border-radius: 20px;
+      transition: background var(--transition-fast);
+    }
+
+    #search-input {
+      border: none;
+      background: none;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .search-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      color: inherit;
+    }
+
+    /* Product Layout Framework */
+    .filter-list {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 40px;
+    }
+
+    .filter-btn {
+      background: var(--lux-gray-100);
+      border: none;
+      padding: 10px 24px;
+      font-family: var(--ff-display);
+      font-weight: 500;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--lux-black);
+      color: #fff;
+    }
+
+    .product-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* Premium Structural Product Card Styles */
+    .product-card {
+      background: transparent;
+      border-radius: 0px; 
+      overflow: hidden;
+      position: relative;
+      transition: var(--transition-smooth);
+    }
+
+    .card-banner {
+      position: relative;
+      background-color: var(--lux-gray-100);
+      overflow: hidden;
+      aspect-ratio: 1 / 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    body.dark-mode .card-banner {
+      background-color: #24242b;
+    }
+
+    .card-badge {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: var(--lux-accent);
+      color: #fff;
+      padding: 4px 12px;
+      font-family: var(--ff-display);
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: 600;
+      z-index: 2;
+    }
+
+    .card-banner img {
+      width: 80%;
+      height: 80%;
+      object-fit: contain;
+      transition: var(--transition-smooth);
+    }
+
+    .product-card:hover .card-banner img {
+      transform: scale(1.08) translateY(-5px); 
+    }
+
+    /* Interactive Bottom Utility Strip */
+    .card-action-list {
+      position: absolute;
+      bottom: -20px; 
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 10px 20px;
+      border-radius: 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition-smooth);
+      z-index: 3;
+      list-style: none;
+      margin: 0;
+    }
+
+    .product-card:hover .card-action-list {
+      bottom: 20px; 
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .card-action-btn {
+      background: transparent;
+      border: none;
+      color: var(--lux-black);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+
+    .card-action-btn:hover {
+      background: var(--lux-black);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* Core Typographic Alignment Fixes */
+    .card-content {
+      padding: 20px 5px;
+      text-align: left; 
+    }
+
+    .card-cat {
+      font-family: var(--ff-display);
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      color: var(--lux-gray-400);
+      margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-family: var(--ff-display);
+      font-size: 19px;
+      font-weight: 600;
+      color: var(--lux-black);
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+
+    .card-title a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Unified Price & Review Container Layout */
+    .card-price-review-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--lux-gray-100);
+      padding-top: 12px;
+      margin-top: 10px;
+      margin-bottom: 8px;
+    }
+    body.dark-mode .card-price-review-box {
+      border-color: #24242b;
+    }
+
+    .card-price {
+      font-family: var(--ff-body);
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--lux-accent);
+    }
+
+    .card-price del {
+      color: var(--lux-gray-400);
+      font-weight: 400;
+      font-size: 14px;
+      margin-left: 6px;
+    }
+
+    .write-review-link {
+      font-family: var(--ff-body);
+      font-size: 13px;
+      color: var(--lux-black);
+      text-decoration: none;
+      border-bottom: 1px solid var(--lux-black);
+      transition: var(--transition-fast);
+    }
+
+    .write-review-link:hover {
+      color: var(--lux-accent);
+      border-color: var(--lux-accent);
+    }
+
+    .product-rating {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 4px;
+      color: #ffb400;
+      font-size: 14px;
+    }
+
+    .product-rating span {
+      color: var(--lux-gray-400);
+      font-size: 13px;
+      margin-left: 4px;
+    }
+
+    /* Toast System Definition */
+    .toast {
+      position: fixed;
+      bottom: 40px; 
+      right: 40px;
+      background: var(--lux-black);
+      color: #fff;
+      padding: 18px 36px;
+      border-radius: 0px; 
+      font-family: var(--ff-display);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-size: 13px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      border-left: 4px solid var(--lux-accent); 
+      transform: translateY(30px);
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 9999;
+    }
+    body.dark-mode .toast {
+      background: var(--lux-cream);
+      color: var(--lux-black);
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Modal System Layout styling */
+    .quick-view-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+    }
+
+    .quick-view-content {
+      background: #fff;
+      padding: 30px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header" data-header>
+    <div class="container">
+
+      <a href="index.html" class="brand-title">
+        Foot<span>cap</span>
+      </a>
+
+      <nav class="navbar" data-navbar>
+        <ul class="navbar-list">
+          <li><a href="index.html" class="navbar-link">Home</a></li>
+          <li><a href="about.html" class="navbar-link">About</a></li>
+          <li><a href="men.html" class="navbar-link active">Men</a></li>
+          <li><a href="blog.html" class="navbar-link">Blog</a></li>
+          <li><a href="#contact" class="navbar-link">Contact</a></li>
+        </ul>
+
+        <ul class="nav-action-list">
+          <li>
+            <div class="search-box">
+              <input type="text" id="search-input" placeholder="Search shoes...">
+              <button class="search-btn" id="search-btn" aria-label="Search"><ion-icon name="search-outline"></ion-icon></button>
+            </div>
+          </li>
+          <li>
+            <a href="./signup.html" class="nav-action-btn" aria-label="User Account">
+              <ion-icon name="person-outline"></ion-icon>
+            </a>
+          </li>
+          <li>
+            <a href="./wishlist.html" class="nav-action-btn" aria-label="Wishlist">
+              <ion-icon name="heart-outline"></ion-icon>
+              <span class="nav-action-badge" id="wishlist-count">0</span>
+            </a>
+          </li>
+          <li>
+            <a href="./cart.html" class="nav-action-btn" aria-label="Cart">
+              <ion-icon name="bag-handle-outline"></ion-icon>
+              <span class="nav-action-badge" id="cart-count">0</span>
+            </a>
+          </li>
+          <li>
+            <button class="nav-action-btn" id="theme-toggle-btn" aria-label="Toggle Dark Mode">
+              <ion-icon name="moon-outline"></ion-icon>
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+    </div>
+  </header>
+
+  <main>
+    <article>
+
+      <section class="section product" id="mens-collection">
+        <div class="container">
+
+          <div class="filter-list">
+            <button class="filter-btn active" data-filter="all">All Shoes</button>
+            <button class="filter-btn" data-filter="nike">Nike</button>
+            <button class="filter-btn" data-filter="adidas">Adidas</button>
+            <button class="filter-btn" data-filter="puma">Puma</button>
+          </div>
+
+          <ul class="product-list" id="mens-product-grid">
+
+            <li class="product-item">
+              <div class="product-card" data-id="p1" data-brand="nike" data-name="Nike Air Max 270 SE" data-price="120.85" data-image="./images/product-1.jpg">
+                <div class="card-banner">
+                  <span class="card-badge">New</span>
+                  <img src="./images/product-1.jpg" alt="Nike Air Max 270 SE" class="image-contain">
+                  <ul class="card-action-list">
+                    <li><button class="card-action-btn add-to-cart-btn"><ion-icon name="bag-handle-outline"></ion-icon></button></li>
+                    <li><button class="card-action-btn add-to-wishlist-btn"><ion-icon name="heart-outline"></ion-icon></button></li>
+                    <li><button class="card-action-btn quick-view-btn"><ion-icon name="eye-outline"></ion-icon></button></li>
+                    <li><button class="card-action-btn compare-btn"><ion-icon name="repeat-outline"></ion-icon></button></li>
+                  </ul>
+                </div>
+                <div class="card-content">
+                  <div class="card-cat">Men / Running</div>
+                  <h3 class="h3 card-title"><a href="#">Nike Air Max 270 SE</a></h3>
+                  <div class="card-price-review-box">
+                    <span class="card-price">$120.85 <del>$150.00</del></span>
+                    <a href="#" class="write-review-link">Write Review</a>
+                  </div>
+                  <div class="product-rating">
+                    <ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star-half"></ion-icon>
+                    <span>(4.3)</span>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+             <li class="product-item">
+              <div class="product-card" data-id="p2" data-brand="puma" data-name="Nike Air Max 270 SE" data-price="120.85" data-image="./images/product-1.jpg">
+                <div class="card-banner">
+                  <span class="card-badge">New</span>
+                  <img src="./images/insta-4.jpg" alt="Puma Air WE3 SE" class="image-contain">
+                  <ul class="card-action-list">
+                    <li><button class="card-action-btn add-to-cart-btn"><ion-icon name="bag-handle-outline"></ion-icon></button></li>
+                    <li><button class="card-action-btn add-to-wishlist-btn"><ion-icon name="heart-outline"></ion-icon></button></li>
+                    <li><button class="card-action-btn quick-view-btn"><ion-icon name="eye-outline"></ion-icon></button></li>
+                    <li><button class="card-action-btn compare-btn"><ion-icon name="repeat-outline"></ion-icon></button></li>
+                  </ul>
+                </div>
+                <div class="card-content">
+                  <div class="card-cat">Men / Running</div>
+                  <h3 class="h3 card-title"><a href="#">Puma Air WE3 SE</a></h3>
+                  <div class="card-price-review-box">
+                    <span class="card-price">$150.85 <del>$180.00</del></span>
+                    <a href="#" class="write-review-link">Write Review</a>
+                  </div>
+                  <div class="product-rating">
+                    <ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star-half"></ion-icon>
+                    <span>(4.3)</span>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li class="product-item">
+              <div class="product-card" data-id="p3" data-brand="adidas" data-name="Adidas UltraBoost 22" data-price="180.00" data-image="./images/product-2.jpg">
+                <div class="card-banner">
+                  <img src="./images/product-2.jpg" alt="Adidas UltraBoost 22" class="image-contain">
+                  <ul class="card-action-list">
+                    <li><button class="card-action-btn add-to-cart-btn"><ion-icon name="bag-handle-outline"></ion-icon></button></li>
+                    <li><button class="card-action-btn add-to-wishlist-btn"><ion-icon name="heart-outline"></ion-icon></button></li>
+                    <li><button class="card-action-btn quick-view-btn"><ion-icon name="eye-outline"></ion-icon></button></li>
+                    <li><button class="card-action-btn compare-btn"><ion-icon name="repeat-outline"></ion-icon></button></li>
+                  </ul>
+                </div>
+                <div class="card-content">
+                  <div class="card-cat">Men / Sports</div>
+                  <h3 class="h3 card-title"><a href="#">Adidas UltraBoost 22</a></h3>
+                  <div class="card-price-review-box">
+                    <span class="card-price">$180.00</span>
+                    <a href="#" class="write-review-link">Write Review</a>
+                  </div>
+                  <div class="product-rating">
+                    <ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon>
+                    <span>(5.0)</span>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+          </ul>
+
+        </div>
+      </section>
+
+    </article>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-bottom">
+      <div class="container">
+        <p class="copyright">
+          &copy; 2026 <a href="#" class="copyright-link">Footcap</a>. All Rights Reserved.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="quick-view-modal" id="quick-view-modal" data-current-id="">
+    <div class="quick-view-content">
+      <span class="close-modal">&times;</span>
+      <img id="modal-image" src="" alt="" style="width:100%; max-height:200px; object-fit:contain;">
+      <h2 id="modal-name"></h2>
+      <p id="modal-price"></p>
+      <button id="quick-add-cart" style="background:var(--lux-black); color:#fff; border:none; padding:12px 24px; cursor:pointer;">Add To Cart</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  
+  <script>
+     'use strict';
+
+// 1. Navigation Toolbar Controls
+const navbar = document.querySelector("[data-navbar]");
+const navOpenBtn = document.querySelector("[data-nav-open-btn]");
+const navCloseBtn = document.querySelector("[data-nav-close-btn]");
+
+const toggleNav = () => { if(navbar) navbar.classList.toggle("active"); };
+if (navOpenBtn) navOpenBtn.addEventListener("click", toggleNav);
+if (navCloseBtn) navCloseBtn.addEventListener("click", toggleNav);
+
+
+// 2. Direct Brand Grid Filtering Logic (Safe Variant)
+const filterButtons = document.querySelectorAll(".filter-btn");
+// Target any product item wrapper regardless of the specific section ID
+const productCards = document.querySelectorAll(".product-item");
+
+if (filterButtons.length > 0 && productCards.length > 0) {
+  filterButtons.forEach(btn => {
+    btn.addEventListener("click", function() {
+      filterButtons.forEach(b => b.classList.remove("active"));
+      this.classList.add("active");
+
+      const filterValue = this.dataset.filter;
+
+      productCards.forEach(card => {
+        // Safe check: handle whether class is directly on the wrapper or inside it
+        const innerCard = card.classList.contains("product-card") ? card : card.querySelector(".product-card");
+        if (!innerCard) return;
+
+        if (filterValue === "all" || innerCard.dataset.brand === filterValue) {
+          card.style.display = "block";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    });
+  });
+}
+
+
+// 3. Search Engine Logic (Safe Variant)
+const searchInput = document.getElementById("search-input");
+const searchBtn = document.getElementById("search-btn");
+
+const executeSearch = () => {
+  if (!searchInput || productCards.length === 0) return;
+  
+  const searchTerm = searchInput.value.toLowerCase().trim();
+
+  productCards.forEach(card => {
+    const innerCard = card.classList.contains("product-card") ? card : card.querySelector(".product-card");
+    if (!innerCard) return;
+
+    const productName = innerCard.dataset.name ? innerCard.dataset.name.toLowerCase() : "";
+    const brandName = innerCard.dataset.brand ? innerCard.dataset.brand.toLowerCase() : "";
+
+    if (productName.includes(searchTerm) || brandName.includes(searchTerm)) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
+};
+
+if (searchInput) searchInput.addEventListener("keyup", executeSearch);
+if (searchBtn) searchBtn.addEventListener("click", executeSearch);
+
+
+// 4. Quick View Modal Integration & Cart System
+const modal = document.getElementById("quick-view-modal");
+const closeModal = document.querySelector(".close-modal");
+let activeModalProduct = null; 
+
+if (modal) {
+  document.querySelectorAll(".quick-view-btn").forEach(btn => {
+    btn.addEventListener("click", function() {
+      const card = this.closest(".product-card");
+      if (!card) return;
+      
+      activeModalProduct = extractProductData(card);
+      
+      document.getElementById("modal-image").src = activeModalProduct.image;
+      document.getElementById("modal-name").innerText = activeModalProduct.name;
+      document.getElementById("modal-price").innerText = `$${activeModalProduct.price}`;
+      
+      modal.style.display = "flex";
+    });
+  });
+
+  if (closeModal) {
+    closeModal.addEventListener("click", () => { modal.style.display = "none"; });
+  }
+  window.addEventListener("click", (e) => { 
+    if (e.target === modal) modal.style.display = "none"; 
+  });
+}
+
+// 5. Toast Alerts System Setup
+const toast = document.getElementById("toast");
+const showToast = (msg) => {
+  if (!toast) return;
+  toast.innerText = msg;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 3000);
+};
+
+
+// 6. E-Commerce Core Storage Synchronization Engine
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+const cartBadge = document.getElementById("cart-count");
+const wishlistBadge = document.getElementById("wishlist-count");
+
+const updateBadges = () => {
+  if (cartBadge) cartBadge.innerText = cart.length;
+  if (wishlistBadge) wishlistBadge.innerText = wishlist.length;
+};
+updateBadges();
+
+const extractProductData = (cardElement) => {
+  return {
+    id: cardElement.dataset.id || "",
+    name: cardElement.dataset.name || "",
+    price: cardElement.dataset.price || "",
+    image: cardElement.dataset.image || "",
+    brand: cardElement.dataset.brand || ""
+  };
+};
+
+document.querySelectorAll(".add-to-cart-btn").forEach(btn => {
+  btn.addEventListener("click", function() {
+    const card = this.closest(".product-card");
+    if (!card) return;
+    const product = extractProductData(card);
+    
+    cart.push(product);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateBadges();
+    showToast("Added to Cart Successfully!");
+  });
+});
+
+document.querySelectorAll(".add-to-wishlist-btn").forEach(btn => {
+  btn.addEventListener("click", function() {
+    const card = this.closest(".product-card");
+    if (!card) return;
+    const product = extractProductData(card);
+    
+    if (!wishlist.some(item => item.id === product.id)) {
+      wishlistItems.push(product);
+      localStorage.setItem("wishlist", JSON.stringify(wishlist));
+      updateBadges();
+      showToast(`Added ${product.name} to Wishlist!`);
+    } else {
+      showToast("Item is already in your Wishlist!");
+    }
+  });
+});
+
+const modalAddCartBtn = document.getElementById("quick-add-cart");
+if (modalAddCartBtn) {
+  modalAddCartBtn.addEventListener("click", () => {
+    if (activeModalProduct) {
+      cart.push(activeModalProduct);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      updateBadges();
+      showToast(`${activeModalProduct.name} added to Cart successfully!`);
+    }
+    if (modal) modal.style.display = "none";
+  });
+}
+
+
+// 7. Global Theme Switching Preservations
+const themeToggleBtn = document.getElementById("theme-toggle-btn");
+if (localStorage.getItem("theme") === "dark") {
+  document.body.classList.add("dark-mode");
+}
+
+if (themeToggleBtn) {
+  themeToggleBtn.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+    if (document.body.classList.contains("dark-mode")) {
+      localStorage.setItem("theme", "dark");
+    } else {
+      localStorage.setItem("theme", "light");
+    }
+  });
+}
+  </script>
+</body>
+</html>

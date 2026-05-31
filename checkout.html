@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secure Checkout - Footcap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* ==========================================================================
+   RESET & SYSTEM VARIABLES
+   ========================================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --border-color: #e4e7eb;
+  --text-main: #1d2022;
+  --text-muted: #64748b;
+  --accent-red: #d91a24;
+  --focus-glow: rgba(217, 26, 36, 0.15);
+  --input-bg: #ffffff;
+  --panel-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+}
+
+.dark-mode {
+  --bg-primary: #121416;
+  --bg-secondary: #1a1d20;
+  --border-color: #2d3135;
+  --text-main: #f1f3f5;
+  --text-muted: #94a3b8;
+  --accent-red: #ff333d;
+  --focus-glow: rgba(255, 51, 61, 0.2);
+  --input-bg: #1e2225;
+  --panel-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  min-height: 100vh;
+  transition: background-color 0.4s ease, color 0.4s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   HEADER / UTILITIES
+   ========================================================================== */
+header {
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 30px 40px 10px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand-title {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.brand-title span {
+  color: var(--accent-red);
+}
+
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--border-color);
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  color: var(--text-main);
+  font-size: 12px;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.theme-toggle:hover {
+  background-color: var(--bg-secondary);
+}
+
+/* ==========================================================================
+   PREMIUM DUAL COLUMN SPLIT SCREEN
+   ========================================================================== */
+.checkout-wrapper {
+  display: flex;
+  flex: 1;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Left Column: Form Section */
+.form-column {
+  flex: 1.2;
+  padding: 40px 60px 60px 40px;
+}
+
+/* Right Column: Dynamic Bag Sticky Sidebar */
+.summary-column {
+  flex: 0.8;
+  background-color: var(--bg-secondary);
+  border-left: 1px solid var(--border-color);
+  padding: 40px 40px 60px 60px;
+  transition: background-color 0.4s ease, border-color 0.4s ease;
+}
+
+/* ==========================================================================
+   TYPOGRAPHY & STEP LEADERS
+   ========================================================================== */
+.section-headline {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 8px;
+}
+
+.section-sub {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 40px;
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.step-num {
+  background-color: var(--text-main);
+  color: var(--bg-primary);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+}
+
+/* ==========================================================================
+   FORM CONTROLS & INPUT GROUPS
+   ========================================================================== */
+.input-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  margin-bottom: 35px;
+}
+
+.input-container {
+  position: relative;
+  width: 100%;
+}
+
+.input-container input,
+.input-container select {
+  width: 100%;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background-color: var(--input-bg);
+  color: var(--text-main);
+  font-size: 15px;
+  font-weight: 500;
+  outline: none;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  appearance: none;
+}
+
+/* Floating Label Logic */
+.input-container label {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 14px;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  background-color: transparent;
+}
+
+/* Shift labels up when active or filled */
+.input-container input:focus ~ label,
+.input-container input:not(:placeholder-shown) ~ label {
+  top: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--accent-red);
+  padding: 0 6px;
+  background-color: var(--bg-primary);
+}
+
+.input-container input:focus,
+.input-container select:focus {
+  border-color: var(--accent-red);
+  box-shadow: 0 0 0 4px var(--focus-glow);
+}
+
+/* Dropdown arrow fix */
+.select-wrapper::after {
+  content: '↓';
+  font-size: 12px;
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   ORDER SUMMARY DISPLAY ELEMENTS
+   ========================================================================== */
+.summary-sticky {
+  position: sticky;
+  top: 40px;
+}
+
+.summary-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Wrapper target container for real items injection loop */
+#checkout-items-list {
+  display: flex;
+  flex-direction: column;
+  max-height: 380px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.item-preview {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.item-image {
+  width: 70px;
+  height: 70px;
+  background-color: var(--border-color);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  object-fit: contain;
+  padding: 5px;
+}
+
+.item-details {
+  flex: 1;
+}
+
+.item-name {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.item-meta {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.item-price {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* Pricing Ledger matrix */
+.pricing-ledger {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.ledger-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.ledger-row.total {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-main);
+  padding-top: 10px;
+}
+
+/* Empty Alert Notice Styling */
+.empty-checkout-notice {
+  padding: 30px 0;
+  text-align: center;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   ACTION CTA ACTION SYSTEM
+   ========================================================================== */
+.action-container {
+  margin-top: 40px;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 18px;
+  border: none;
+  border-radius: 14px;
+  background: var(--text-main);
+  color: var(--bg-primary);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-submit:hover {
+  background: var(--accent-red);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px var(--focus-glow);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN SYSTEM (BREAKS STACK ON MOBILE)
+   ========================================================================== */
+@media (max-width: 992px) {
+  .checkout-wrapper {
+    flex-direction: column-reverse;
+  }
+  
+  .form-column, .summary-column {
+    padding: 40px 24px;
+    flex: none;
+  }
+  
+  header {
+    padding: 20px;
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand-title">FOOT<span>CAP</span></div>
+  <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">Dark Display</button>
+</header>
+
+<main class="checkout-wrapper">
+  
+  <!-- LEFT PANEL: CUSTOMER LOGISTICS & BILLING INFO -->
+  <section class="form-column">
+    <h1 class="section-headline">Secure Checkout</h1>
+    <p class="section-sub">Provide your credentials and complete your purchase securely.</p>
+    
+    <form id="checkout-form">
+      
+      <!-- STEP 1: LOGISTICS DETAILS -->
+      <div class="step-header">
+        <span class="step-num">1</span> Shipping Target
+      </div>
+      
+      <div class="input-row">
+        <div class="input-container">
+          <input type="text" id="fullname" placeholder=" " required>
+          <label for="fullname">Full Name</label>
+        </div>
+        
+        <div class="input-container">
+          <input type="text" id="address" placeholder=" " required>
+          <label for="address">Delivery Address</label>
+        </div>
+        
+        <div class="input-container">
+          <input type="tel" id="phone" placeholder=" " required>
+          <label for="phone">Phone Number</label>
+        </div>
+      </div>
+
+      <!-- STEP 2: SETTLEMENT OPTIONS -->
+      <div class="step-header">
+        <span class="step-num">2</span> Settlement Gateway
+      </div>
+      
+      <div class="input-row">
+        <div class="input-container select-wrapper">
+          <select id="payment" required>
+            <option value="" disabled selected hidden></option>
+            <option>Cash On Delivery</option>
+            <option>UPI Payment</option>
+            <option>Credit / Debit Card</option>
+          </select>
+          <label for="payment" style="top:0; font-size:11px; font-weight:700; background:var(--bg-primary); padding:0 6px; transform:none; color:var(--text-muted);">Payment Channel</label>
+        </div>
+      </div>
+
+      <div class="action-container">
+        <button type="submit" class="btn-submit">Complete Transaction</button>
+      </div>
+
+    </form>
+  </section>
+
+  <!-- RIGHT PANEL: DYNAMIC LIVE BASKET BREAKDOWN OVERVIEW -->
+  <aside class="summary-column">
+    <div class="summary-sticky">
+      <h2 class="summary-title">Your Order Breakdown</h2>
+      
+      <!-- Target list box for dynamic cart parsing -->
+      <div id="checkout-items-list">
+        <!-- Javascript renders items here dynamically -->
+      </div>
+
+      <!-- Pricing Matrix Ledger Structure -->
+      <div class="pricing-ledger">
+        <div class="ledger-row">
+          <span>Subtotal</span>
+          <span>$<span id="subtotal-val">0.00</span></span>
+        </div>
+        <div class="ledger-row">
+          <span>Courier Premium Shipping</span>
+          <span>FREE</span>
+        </div>
+        <div class="ledger-row">
+          <span>Estimated Surcharges</span>
+          <span>$<span id="surcharge-val">0.00</span></span>
+        </div>
+        <div class="ledger-row total">
+          <span>Total Payable Amount</span>
+          <span>$<span id="total-val">0.00</span></span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+</main>
+
+<script src="./checkout.js"></script>
+</body>
+</html>

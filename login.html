@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Sign In - Footcap</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       RESET & THEME FRAMEWORK VARIABLES
+       ========================================================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    :root {
+      --bg-dark: #1d2022;
+      --bg-light: #ffffff;
+      --bg-surface: #f8f9fa;
+      --accent-red: #d91a24;
+      --text-muted: #64748b;
+      --text-muted-dark: #94a3b8;
+      --border-color: #e4e7eb;
+      --focus-glow: rgba(217, 26, 36, 0.12);
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background-color: var(--bg-dark);
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* ==========================================================================
+       DUAL-PANEL SPLIT SYSTEM
+       ========================================================================== */
+    .split-screen-container {
+      display: flex;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    /* Left Panel: Luxury Brand Narrative Hub */
+    .brand-side {
+      flex: 1.1;
+      background-color: var(--bg-dark);
+      padding: 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Decorative background ambient glow */
+    .brand-side::before {
+      content: '';
+      position: absolute;
+      bottom: -150px;
+      left: -150px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(217, 26, 36, 0.15) 0%, rgba(0,0,0,0) 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .brand-logo {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+      color: var(--bg-light);
+      text-decoration: none;
+      z-index: 2;
+    }
+
+    .brand-logo span {
+      color: var(--accent-red);
+    }
+
+    .brand-center-text {
+      max-width: 480px;
+      z-index: 2;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: textReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+    }
+
+    .brand-headline {
+      color: var(--bg-light);
+      font-size: 44px;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 20px;
+    }
+
+    .brand-sub {
+      color: var(--text-muted-dark);
+      font-size: 16px;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+
+    .brand-footer {
+      color: var(--text-muted-dark);
+      font-size: 13px;
+      font-weight: 500;
+      z-index: 2;
+    }
+
+    /* Right Panel: Clean Custom Form Workspace */
+    .form-side {
+      flex: 0.9;
+      background-color: var(--bg-light);
+      padding: 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow-y: auto;
+    }
+
+    .form-wrapper {
+      max-width: 400px;
+      width: 100%;
+      margin: 0 auto;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: textReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+    }
+
+    .form-header {
+      margin-bottom: 35px;
+    }
+
+    .form-title {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: var(--bg-dark);
+      margin-bottom: 8px;
+    }
+
+    .form-subtitle {
+      font-size: 15px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* ==========================================================================
+       NATIVE FLOATING INPUT CONTROLS
+       ========================================================================== */
+    .form-group {
+      position: relative;
+      margin-bottom: 24px;
+      width: 100%;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 18px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-light);
+      color: var(--bg-dark);
+      font-size: 15px;
+      font-weight: 600;
+      outline: none;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Floating Label Framework */
+    .form-group label {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 14px;
+      pointer-events: none;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      background-color: transparent;
+    }
+
+    /* Shift labels up when focused or input holds a value */
+    .form-group input:focus ~ label,
+    .form-group input:not(:placeholder-shown) ~ label {
+      top: 0;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--accent-red);
+      padding: 0 6px;
+      background-color: var(--bg-light);
+    }
+
+    .form-group input:focus {
+      border-color: var(--accent-red);
+      box-shadow: 0 0 0 4px var(--focus-glow);
+    }
+
+    /* Password Utility Visibility Anchor */
+    .password-toggle {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .password-toggle svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Context Controls Options Line */
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .remember-me input {
+      accent-color: var(--bg-dark);
+      width: 16px;
+      height: 16px;
+    }
+
+    .forgot-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .forgot-link:hover {
+      color: var(--accent-red);
+    }
+
+    /* ==========================================================================
+       SUBMIT TRIGGER ACTION
+       ========================================================================== */
+    .btn-login {
+      width: 100%;
+      padding: 18px;
+      border: none;
+      border-radius: 14px;
+      background-color: var(--bg-dark);
+      color: var(--bg-light);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      margin-bottom: 24px;
+    }
+
+    .btn-login:hover {
+      background-color: var(--accent-red);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px var(--focus-glow);
+    }
+
+    .btn-login:active {
+      transform: translateY(0);
+    }
+
+    .footer-redirect {
+      text-align: center;
+      font-size: 14px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .footer-redirect a {
+      color: var(--accent-red);
+      text-decoration: none;
+      font-weight: 700;
+      margin-left: 4px;
+    }
+
+    .footer-redirect a:hover {
+      text-decoration: underline;
+    }
+
+    /* ==========================================================================
+       ANIMATIONS KEYFRAMES
+       ========================================================================== */
+    @keyframes textReveal {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ==========================================================================
+       RESPONSIVE ADAPTABILITY RULES
+       ========================================================================== */
+    @media (max-width: 992px) {
+      .brand-side {
+        display: none;
+      }
+      .form-side {
+        flex: 1;
+        padding: 40px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MASTER SPLIT COVER LAYOUT WRAPPER -->
+  <div class="split-screen-container">
+    
+    <!-- LEFT PANEL: PREMIUM LUXURY COVERSHEET -->
+    <section class="brand-side">
+      <a href="index.html" class="brand-logo">Foot<span>cap</span></a>
+      
+      <div class="brand-center-text">
+        <h1 class="brand-headline">Welcome Back to the Circle.</h1>
+        <p class="brand-sub">Sign in to review your order tracking registries, manage exclusive delivery details, and discover personalized collection drop lists.</p>
+      </div>
+
+      <div class="brand-footer">
+        &copy; 2026 Footcap Core Logistics Services.
+      </div>
+    </section>
+
+    <!-- RIGHT PANEL: NATIVE FORM FRAMEWORK -->
+    <section class="form-side">
+      <div class="form-wrapper">
+        
+        <header class="form-header">
+          <h2 class="form-title">Sign In</h2>
+          <p class="form-subtitle">Enter your active credentials to sync session details.</p>
+        </header>
+
+        <form id="native-login-form">
+          
+          <!-- INPUT: EMAIL CONTAINER -->
+          <div class="form-group">
+            <input type="email" id="email" placeholder=" " required autocomplete="email">
+            <label for="email">Email Address</label>
+          </div>
+
+          <!-- INPUT: PASSWORD CONTAINER WITH INTERACTIVE EYE TOGGLE -->
+          <div class="form-group">
+            <input type="password" id="password" placeholder=" " required autocomplete="current-password">
+            <label for="password">Password</label>
+            <button type="button" class="password-toggle" id="passwordToggleBtn" aria-label="Toggle password visibility">
+              <!-- Eye Icon SVG -->
+              <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- OPTION LAYER MATRIX -->
+          <div class="form-options">
+            <label class="remember-me" for="remember">
+              <input type="checkbox" id="remember">
+              <span>Keep me signed in</span>
+            </label>
+            <a href="#" class="forgot-link">Forgot Password?</a>
+          </div>
+
+          <!-- RE-ENTRY ACTION CTAS -->
+          <button type="submit" class="btn-login">Sign In</button>
+
+          <p class="footer-redirect">
+            New to the platform?<a href="signup.html">Create Account</a>
+          </p>
+
+        </form>
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- COMPONENT LOGIC SCRIPT WORKER -->
+  <script>
+    // Native Visibility Mask/Unmask Handler
+    const passwordInput = document.getElementById('password');
+    const toggleBtn = document.getElementById('passwordToggleBtn');
+    const eyeIcon = document.getElementById('eyeIcon');
+
+    toggleBtn.addEventListener('click', () => {
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        // Swap to Eye Slash Icon
+        eyeIcon.innerHTML = `
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+        `;
+      } else {
+        passwordInput.type = 'password';
+        // Swap back to Standard Eye Icon
+        eyeIcon.innerHTML = `
+          <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        `;
+      }
+    });
+
+    // Handle Form Processing
+    document.getElementById('native-login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const emailVal = document.getElementById('email').value.trim();
+      
+      // Save minimal active state
+      localStorage.setItem("userLoggedIn", "true");
+      localStorage.setItem("userEmail", emailVal);
+
+      alert("Sign-in verified successfully!");
+      window.location.href = "index.html";
+    });
+  </script>
+
+</body>
+</html>

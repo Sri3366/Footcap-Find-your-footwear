@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Success - Footcap</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2 family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       RESET & THEME SYSTEM CONFIGURATION
+       ========================================================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    :root {
+      --bg-main: #ffffff;
+      --bg-surface: #f8f9fa;
+      --border-color: #e4e7eb;
+      --text-main: #1d2022;
+      --text-muted: #64748b;
+      --accent-red: #d91a24;
+      --focus-glow: rgba(217, 26, 36, 0.12);
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    /* ==========================================================================
+       PREMIUM CONFIRMATION DISPLAY CARD
+       ========================================================================== */
+    .success-card {
+      max-width: 540px;
+      width: 100%;
+      text-align: center;
+      padding: 60px 40px;
+      background: var(--bg-main);
+      border-radius: 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Animated Minimal Radial Seal */
+    .success-icon-wrapper {
+      width: 80px;
+      height: 80px;
+      background-color: rgba(217, 26, 36, 0.06);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 32px;
+      animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .success-icon-wrapper svg {
+      width: 36px;
+      height: 36px;
+      color: var(--accent-red);
+    }
+
+    /* Core Typography Hierarchy */
+    .success-title {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      color: var(--text-main);
+    }
+
+    .success-description {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 40px;
+      font-weight: 500;
+    }
+
+    /* Dynamic Transaction Receipt Information Grid */
+    .receipt-panel {
+      width: 100%;
+      background-color: var(--bg-surface);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 40px;
+      border: 1px solid var(--border-color);
+    }
+
+    .receipt-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      padding: 10px 0;
+    }
+
+    .receipt-row:not(:last-child) {
+      border-bottom: 1px dashed var(--border-color);
+    }
+
+    .receipt-label {
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .receipt-value {
+      color: var(--text-main);
+      font-weight: 700;
+    }
+
+    /* Primary Navigation CTA Interaction Layer */
+    .continue-shopping-btn {
+      width: 100%;
+      padding: 18px;
+      border: none;
+      border-radius: 14px;
+      background-color: var(--text-main);
+      color: var(--bg-main);
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      text-transform: capitalize;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-block;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .continue-shopping-btn:hover {
+      background-color: var(--accent-red);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px var(--focus-glow);
+    }
+
+    /* ==========================================================================
+       ANIMATION TIMELINE SCHEDULER
+       ========================================================================== */
+    @keyframes scaleIn {
+      0% {
+        transform: scale(0.6);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    /* Responsive Scaling Adjustment Rules */
+    @media (max-width: 576px) {
+      .success-card {
+        padding: 40px 24px;
+        border: none;
+        box-shadow: none;
+      }
+      .success-title {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="success-card">
+    
+    <div class="success-icon-wrapper">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+      </svg>
+    </div>
+
+    <h1 class="success-title">Order Placed Successfully</h1>
+    <p class="success-description">Thank you for your purchase. Your payment has been securely confirmed, and your order is being prepared for delivery.</p>
+
+    <div class="receipt-panel">
+      <div class="receipt-row">
+        <span class="receipt-label">Order Reference</span>
+        <span class="receipt-value" id="order-id-label">FTC-84920</span>
+      </div>
+      <div class="receipt-row">
+        <span class="receipt-label">Delivery Timeline</span>
+        <span class="receipt-value">2 - 4 Business Days</span>
+      </div>
+    </div>
+
+    <a href="index.html" class="continue-shopping-btn">Continue Shopping</a>
+
+  </main>
+
+  <script>
+    // Injects a randomized, realistic-looking order number reference string automatically
+    document.addEventListener("DOMContentLoaded", () => {
+      const orderLabel = document.getElementById("order-id-label");
+      if (orderLabel) {
+        const randomID = "FTC-" + Math.floor(100000 + Math.random() * 900000);
+        orderLabel.innerText = randomID;
+      }
+    });
+  </script>
+
+</body>
+</html>

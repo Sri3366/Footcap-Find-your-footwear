@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Footcap Elite — Sports & Performance Engineering</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==========================================
+   DESIGN VARIABLES & DESIGN ENGINE CORE
+   ========================================== */
+:root {
+  --clr-primary: #050507;
+  --clr-canvas: #ffffff;
+  --clr-light-gray: #f7f7f9;
+  --clr-border: #e2e2e9;
+  --clr-muted: #6e6e76;
+  --clr-accent: #000000;
+  --clr-neon-orange: #ff5500;
+  --clr-overlay: rgba(0, 0, 0, 0.5);
+
+  --ff-display: 'Josefin Sans', sans-serif;
+  --ff-body: 'Outfit', sans-serif;
+
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+  --ts-smooth: 0.5s var(--ease-premium);
+  --ts-fast: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-lg: 0 40px 80px rgba(0, 0, 0, 0.12);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--ff-body);
+  background-color: var(--clr-canvas);
+  color: var(--clr-primary);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ==========================================
+   NAVIGATION BAR HEADER DESIGN
+   ========================================== */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--clr-border);
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 90px;
+}
+
+.brand-logo {
+  font-family: var(--ff-display);
+  font-size: 28px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--clr-primary);
+  text-decoration: none;
+}
+
+.brand-logo span { color: var(--clr-neon-orange); }
+
+.navbar-list {
+  display: flex;
+  gap: 40px;
+}
+
+.navbar-link {
+  font-family: var(--ff-display);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-decoration: none;
+  padding: 8px 0;
+  position: relative;
+  transition: color var(--ts-fast);
+}
+
+.navbar-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--clr-primary);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s var(--ease-premium);
+}
+
+.navbar-link:hover::after,
+.navbar-link.active::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.action-btn {
+  font-size: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  position: relative;
+  transition: var(--ts-fast);
+}
+
+.action-btn:hover { background-color: var(--clr-light-gray); }
+
+.action-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background-color: var(--clr-neon-orange);
+  color: white;
+  font-size: 9px;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}
+
+/* SEARCH FIELD TRANSITIONS */
+.search-wrapper { display: flex; align-items: center; }
+
+#catalog-search-input {
+  border: none;
+  outline: none;
+  padding: 8px 12px;
+  font-family: inherit;
+  font-size: 14px;
+  width: 0;
+  opacity: 0;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: width 0.3s var(--ease-premium), opacity 0.2s linear;
+}
+
+.search-wrapper:hover #catalog-search-input,
+#catalog-search-input:focus {
+  width: 220px;
+  opacity: 1;
+  border-bottom: 1px solid var(--clr-primary);
+}
+
+/* ==========================================
+   PREMIUM INTERACTIVE HERO HEADER
+   ========================================== */
+.sports-hero {
+  position: relative;
+  height: 60vh;
+  min-height: 450px;
+  display: flex;
+  align-items: center;
+  background-color: var(--clr-primary);
+  overflow: hidden;
+  margin-bottom: 60px;
+}
+
+.hero-bg-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.hero-bg-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.65;
+  transform: scale(1.05);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  color: white;
+  max-width: 650px;
+}
+
+.hero-tag {
+  font-family: var(--ff-display);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--clr-neon-orange);
+  font-weight: 700;
+  margin-bottom: 16px;
+  display: inline-block;
+}
+
+.hero-title {
+  font-family: var(--ff-display);
+  font-size: 64px;
+  line-height: 1.05;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  margin-bottom: 20px;
+}
+
+.hero-description {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #cbcbdf;
+  font-weight: 300;
+}
+
+/* ==========================================
+   SHOP GRID & SIDEBAR ARCHITECTURE LAYOUT
+   ========================================== */
+.shop-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 60px;
+  margin-bottom: 100px;
+}
+
+.filter-sidebar {
+  position: sticky;
+  top: 130px;
+  height: fit-content;
+}
+
+.filter-section {
+  border-bottom: 1px solid var(--clr-border);
+  padding-bottom: 32px;
+  margin-bottom: 32px;
+}
+
+.filter-title {
+  font-family: var(--ff-display);
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.filter-item-btn, .brand-filter-btn {
+  text-align: left;
+  font-size: 15px;
+  color: var(--clr-muted);
+  transition: var(--ts-fast);
+  padding: 2px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.filter-item-btn:hover, .filter-item-btn.active,
+.brand-filter-btn:hover, .brand-filter-btn.active {
+  color: var(--clr-primary);
+  font-weight: 600;
+  transform: translateX(4px);
+}
+
+/* CONTENT ZONE DESIGN ELEMENT DISPLAY */
+.shop-content { display: flex; flex-direction: column; gap: 32px; }
+
+.utility-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--clr-border);
+  padding-bottom: 20px;
+}
+
+.results-count { font-size: 15px; color: var(--clr-muted); }
+
+.sort-dropdown {
+  padding: 10px 16px;
+  border: 1px solid var(--clr-border);
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+/* PREMIUM GRID MATRIX DESIGN PATTERNS */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 40px;
+}
+
+.product-card {
+  position: relative;
+  background: transparent;
+  transition: var(--ts-smooth);
+}
+
+.card-media {
+  position: relative;
+  background-color: var(--clr-light-gray);
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.7s var(--ease-premium);
+}
+
+.product-card:hover .card-media img {
+  transform: scale(1.08) translateY(-4px);
+}
+
+.badge-tag {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: var(--clr-primary);
+  color: white;
+  font-family: var(--ff-display);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  letter-spacing: 1px;
+}
+
+.badge-tag.orange { background: var(--clr-neon-orange); }
+
+/* SLIDE HOVER CONTROL LAYOUT ACTION LINKS */
+.card-action-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  background: linear-gradient(to top, rgba(0,0,0,0.15), transparent);
+  opacity: 0;
+  transform: translateY(15px);
+  transition: all 0.4s var(--ease-premium);
+}
+
+.product-card:hover .card-action-overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.overlay-btn {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background-color: white;
+  color: var(--clr-primary);
+  font-size: 20px;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  transition: var(--ts-fast);
+}
+
+.overlay-btn:hover {
+  background-color: var(--clr-primary);
+  color: white;
+}
+
+.card-info { padding: 20px 4px 0 4px; }
+.product-discipline {
+  font-family: var(--ff-display);
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--clr-neon-orange);
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+.product-title { font-size: 18px; font-weight: 500; margin-bottom: 6px; }
+.price-box { font-size: 16px; font-weight: 600; }
+
+/* ==========================================
+   GLOBAL UTILITY SIDEBAR PANELS DRAWERS
+   ========================================== */
+.cart-drawer {
+  position: fixed;
+  top: 0;
+  right: -460px;
+  width: 460px;
+  height: 100vh;
+  background-color: white;
+  box-shadow: var(--shadow-lg);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  transition: right 0.5s var(--ease-premium);
+}
+
+.cart-drawer.open { right: 0; }
+.cart-header {
+  padding: 32px;
+  border-bottom: 1px solid var(--clr-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cart-header h2 { font-family: var(--ff-display); font-size: 22px; text-transform: uppercase; }
+.close-cart-btn { font-size: 32px; }
+
+.cart-items-wrapper { flex: 1; overflow-y: auto; padding: 32px; display: flex; flex-direction: column; gap: 24px; }
+.cart-item { display: flex; gap: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--clr-light-gray); }
+.cart-item-img { width: 90px; height: 90px; background: var(--clr-light-gray); object-fit: contain; padding: 10px; }
+.cart-item-details { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+.cart-item-name { font-size: 16px; font-weight: 500; }
+.cart-item-pricing { display: flex; justify-content: space-between; align-items: center; }
+.cart-item-remove { font-size: 13px; color: var(--clr-muted); text-decoration: underline; }
+.cart-item-remove:hover { color: var(--clr-neon-orange); }
+
+.cart-footer { padding: 32px; background-color: var(--clr-light-gray); border-top: 1px solid var(--clr-border); }
+.subtotal-row { display: flex; justify-content: space-between; font-size: 18px; font-weight: 600; margin-bottom: 20px; }
+.checkout-btn {
+  width: 100%;
+  background-color: var(--clr-primary);
+  color: white;
+  padding: 18px;
+  font-family: var(--ff-display);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: var(--ts-fast);
+}
+.checkout-btn:hover { background-color: var(--clr-neon-orange); }
+
+/* SCRIM WINDOW COVERING */
+.scrim {
+  position: fixed;
+  inset: 0;
+  background-color: var(--clr-overlay);
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--ts-fast);
+  z-index: 1000;
+}
+.scrim.visible { opacity: 1; visibility: visible; }
+
+/* ==========================================
+   MODAL PLATFORM INTERFACE DIALOG SYSTEM
+   ========================================== */
+.modal-view {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.modal-view.open { display: flex; }
+.modal-card {
+  background: white;
+  max-width: 900px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  position: relative;
+  box-shadow: var(--shadow-lg);
+  animation: modalSlideUp 0.5s var(--ease-premium);
+}
+@keyframes modalSlideUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.close-modal-btn { position: absolute; top: 24px; right: 24px; font-size: 32px; z-index: 10; }
+.modal-gallery { background-color: var(--clr-light-gray); padding: 48px; display: flex; place-items: center; }
+.modal-body { padding: 48px; display: flex; flex-direction: column; justify-content: center; }
+.modal-title { font-size: 28px; font-weight: 600; margin-bottom: 12px; font-family: var(--ff-display); text-transform: uppercase; }
+.modal-price { font-size: 22px; font-weight: 700; color: var(--clr-neon-orange); margin-bottom: 20px; }
+.modal-desc { font-size: 15px; color: var(--clr-muted); line-height: 1.6; margin-bottom: 32px; }
+.modal-action-btn { background: var(--clr-primary); color: white; padding: 16px 32px; font-family: var(--ff-display); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; align-self: flex-start; transition: var(--ts-fast); }
+.modal-action-btn:hover { background: var(--clr-neon-orange); }
+
+/* ==========================================
+   TOAST APP FEEDBACK NOTIFICATIONS
+   ========================================== */
+.toast-container { position: fixed; bottom: 40px; right: 40px; z-index: 5000; display: flex; flex-direction: column; gap: 12px; }
+.toast-notification {
+  background-color: var(--clr-primary);
+  color: white;
+  padding: 18px 32px;
+  font-family: var(--ff-display);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+  border-left: 4px solid var(--clr-neon-orange);
+  box-shadow: var(--shadow-lg);
+  animation: toastPopIn 0.35s var(--ease-premium) forwards;
+}
+@keyframes toastPopIn { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+/* ==========================================
+   RESPONSIVE LAYOUT RESPONSIVENESS (MEDIA QUERIES)
+   ========================================== */
+@media (max-width: 1024px) {
+  .shop-layout { grid-template-columns: 1fr; gap: 40px; }
+  .filter-sidebar { display: none; }
+  .hero-title { font-size: 52px; }
+}
+@media (max-width: 768px) {
+  .navbar-list {
+    position: fixed;
+    top: 90px;
+    left: -100%;
+    width: 100%;
+    height: calc(100vh - 90px);
+    background-color: white;
+    flex-direction: column;
+    padding: 48px;
+    gap: 32px;
+    transition: left 0.4s var(--ease-premium);
+    z-index: 400;
+  }
+  .navbar-list.active { left: 0; }
+  .menu-toggle { display: block; font-size: 32px; }
+  .modal-card { grid-template-columns: 1fr; }
+  .modal-body { padding: 32px; }
+  .cart-drawer { width: 100%; right: -100%; }
+  .search-wrapper:hover #catalog-search-input, #catalog-search-input:focus { width: 140px; }
+}
+  </style>
+</head>
+<body data-page="sports">
+
+  <div class="scrim" id="global-scrim"></div>
+
+  <header class="header">
+    <div class="container header-container">
+      <button class="menu-toggle" id="menu-toggle-btn" aria-label="Toggle Menu">
+        <ion-icon name="menu-outline"></ion-icon>
+      </button>
+
+      <a href="#" class="brand-logo">Foot<span>cap</span></a>
+
+      <nav class="navbar">
+        <ul class="navbar-list" id="nav-menu">
+          <li><a href="index.html" class="navbar-link">Home</a></li>
+          <li><a href="products.html" class="navbar-link">Shop All</a></li>
+          <li><a href="men.html" class="navbar-link">Men</a></li>
+          <li><a href="women.html" class="navbar-link">Women</a></li>
+          <li><a href="sports.html" class="navbar-link active">Sports</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="search-wrapper">
+          <input type="text" id="catalog-search-input" placeholder="Search sports gear..." aria-label="Search catalog">
+          <button class="action-btn" aria-label="Search Trigger">
+            <ion-icon name="search-outline"></ion-icon>
+          </button>
+        </div>
+        
+        <button class="action-btn" id="wishlist-toggle-btn" aria-label="Saved Wishlist">
+          <ion-icon name="heart-outline"></ion-icon>
+          <span class="action-badge" id="wishlist-badge">0</span>
+        </button>
+        <button class="action-btn" id="cart-toggle-btn" aria-label="Shopping Cart">
+          <ion-icon name="bag-handle-outline"></ion-icon>
+          <span class="action-badge" id="cart-badge">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="sports-hero">
+    <div class="hero-bg-media">
+      <img src="./images/Athletic Training Arena.avif" alt="Athletic Training Arena">
+    </div>
+    <div class="hero-content container">
+      <span class="hero-tag">High-Performance Lab</span>
+      <h1 class="hero-title">Break All<br>Boundaries</h1>
+      <p class="hero-description">Engineered blueprints designed for ultimate speed, mechanical stabilization, and competitive energy return kinetics.</p>
+    </div>
+  </section>
+
+  <main class="container">
+    <div class="shop-layout">
+      
+      <aside class="filter-sidebar">
+        <div class="filter-section">
+          <h3 class="filter-title">Disciplines</h3>
+          <div class="filter-group">
+            <button class="filter-item-btn active" data-filter="all">All Disciplines <span>6</span></button>
+            <button class="filter-item-btn" data-filter="running">Running Mechanics</button>
+            <button class="filter-item-btn" data-filter="training">Gym & Training</button>
+            <button class="filter-item-btn" data-filter="trail">Trail & Outdoor</button>
+          </div>
+        </div>
+
+        <div class="filter-section">
+          <h3 class="filter-title">Premium Brands</h3>
+          <div class="filter-group">
+            <button class="brand-filter-btn active" data-brand="all">All Brands</button>
+            <button class="brand-filter-btn" data-brand="nike">Nike Performance</button>
+            <button class="brand-filter-btn" data-brand="adidas">Adidas Terrex/Boost</button>
+            <button class="brand-filter-btn" data-brand="puma">Puma Nitro</button>
+          </div>
+        </div>
+      </aside>
+
+      <section class="shop-content">
+        <div class="utility-bar">
+          <p class="results-count" id="results-tracker">Analyzing catalog metrics...</p>
+          <select class="sort-dropdown" aria-label="Sort configuration matrix">
+            <option>Featured Pricing</option>
+            <option>Price: Low to High</option>
+            <option>Price: High to Low</option>
+          </select>
+        </div>
+
+        <div class="products-grid" id="main-shop-grid"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <div class="cart-drawer" id="cart-panel">
+    <div class="cart-header">
+      <h2>Your Cart</h2>
+      <button class="close-cart-btn" id="close-cart-btn">&times;</button>
+    </div>
+    <div class="cart-items-wrapper" id="cart-items-container"></div>
+    <div class="cart-footer">
+      <div class="subtotal-row">
+        <span>Subtotal</span>
+        <span id="cart-subtotal-value">$0.00</span>
+      </div>
+      <button class="checkout-btn">Proceed To Checkout</button>
+    </div>
+  </div>
+
+  <div class="cart-drawer" id="wishlist-panel">
+    <div class="cart-header">
+      <h2>Your Wishlist</h2>
+      <button class="close-cart-btn" id="close-wishlist-btn">&times;</button>
+    </div>
+    <div class="cart-items-wrapper" id="wishlist-items-container"></div>
+  </div>
+
+  <div class="modal-view" id="product-quick-modal">
+    <div class="modal-card">
+      <button class="close-modal-btn" id="close-modal-btn-x">&times;</button>
+      <div class="modal-gallery">
+        <img id="modal-target-img" src="" alt="">
+      </div>
+      <div class="modal-body">
+        <span class="product-brand" id="modal-target-brand">Lab Series</span>
+        <h2 class="modal-title" id="modal-target-name">Model Specifications</h2>
+        <div class="modal-price" id="modal-target-price">$0.00</div>
+        <p class="modal-desc">Engineered for elite athletes. Built with multi-density responsive compounds, advanced torsional plates for energy containment, and adaptive breathing weaves for maximum ventilation output across long thresholds.</p>
+        <button class="modal-action-btn" id="modal-add-to-cart-action">Add To Shopping Bag</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-wrapper"></div>
+
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <script>
+    'use strict';
+
+// 1. SPORTS LAB DATAFRAME COLLECTION ARCHITECTURE
+const SPORTS_MOCK_DATA = [
+  { id: 'sp-01', name: 'Nike Alphafly Next% Elite', price: 275.00, brand: 'nike', discipline: 'running', badge: 'Breaking2', image: './images/Nike Alphafly Next% Elite.avif' },
+  { id: 'sp-02', name: 'Puma Voyage Nitro 3 Trail', price: 190.00, brand: 'puma', discipline: 'trail', badge: 'Continental', image: './images/Puma Voyage Nitro 3 Trail.avif' },
+  { id: 'sp-03', name: 'Puma Fast-R Nitro Elite', price: 260.00, brand: 'puma', discipline: 'running', badge: 'New Compound', image: './images/Puma Fast-R Nitro Elite.avif' },
+  { id: 'sp-04', name: 'Nike Metcon 9 Pro Amp', price: 150.00, brand: 'nike', discipline: 'training', badge: null, image: './images/Nike Metcon 9 Pro Amp.avif' },
+  { id: 'sp-05', name: 'Adidas Dropset 2 Trainer', price: 130.00, brand: 'adidas', discipline: 'training', badge: 'Sale', image: './images/Adidas Dropset 2 Trainer.avif' },
+  { id: 'sp-06', name: 'Adidas Terrex Two Ultra Trail', price: 140.00, brand: 'adidas', discipline: 'trail', badge: null, image: './images/Adidas Terrex Two Ultra Trail.avif' }
+];
+
+// 2. STATE INTERFACE RUNTIME SYSTEMS (SHARED STORAGE STRATEGY)
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+let currentDiscipline = 'all';
+let currentBrand = 'all';
+let activeModalProduct = null;
+
+// Object DOM Selectors Mapping
+const mainShopGrid = document.getElementById('main-shop-grid');
+const disciplineButtons = document.querySelectorAll('.filter-item-btn');
+const brandButtons = document.querySelectorAll('.brand-filter-btn');
+const resultsTracker = document.getElementById('results-tracker');
+const sortDropdown = document.querySelector('.sort-dropdown');
+const catalogSearchInput = document.getElementById('catalog-search-input');
+
+const cartPanel = document.getElementById('cart-panel');
+const cartToggleBtn = document.getElementById('cart-toggle-btn');
+const closeCartBtn = document.getElementById('close-cart-btn');
+const cartItemsContainer = document.getElementById('cart-items-container');
+const cartSubtotalValue = document.getElementById('cart-subtotal-value');
+
+const wishlistPanel = document.getElementById('wishlist-panel');
+const wishlistToggleBtn = document.getElementById('wishlist-toggle-btn');
+const closeWishlistBtn = document.getElementById('close-wishlist-btn');
+const wishlistItemsContainer = document.getElementById('wishlist-items-container');
+
+const globalScrim = document.getElementById('global-scrim');
+const menuToggleBtn = document.getElementById('menu-toggle-btn');
+const navMenu = document.getElementById('nav-menu');
+
+const productQuickModal = document.getElementById('product-quick-modal');
+const closeModalBtnX = document.getElementById('close-modal-btn-x');
+const modalAddToCartAction = document.getElementById('modal-add-to-cart-action');
+
+const cartBadge = document.getElementById('cart-badge');
+const wishlistBadge = document.getElementById('wishlist-badge');
+
+// ==========================================
+// CORE LAYOUT LIFECYCLE INITS
+// ==========================================
+function initApp() {
+  renderProductsGrid(SPORTS_MOCK_DATA);
+  updateBadges();
+  renderCartDrawerList();
+  renderWishlistDrawerList();
+}
+
+// 3. PRODUCT GRID GENERATOR PLATFORM
+function renderProductsGrid(products) {
+  if (!mainShopGrid) return;
+  mainShopGrid.innerHTML = '';
+  
+  if (products.length === 0) {
+    mainShopGrid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; padding:60px; color:var(--clr-muted);">No precision models found matching requirements.</p>`;
+    if (resultsTracker) resultsTracker.innerText = "0 Dynamic Models Found";
+    return;
+  }
+
+  if (resultsTracker) resultsTracker.innerText = `Displaying ${products.length} High-Performance Specs`;
+
+  products.forEach(product => {
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    card.setAttribute('data-id', product.id);
+    
+    let badgeHtml = product.badge ? `<span class="badge-tag ${product.id === 'sp-01' ? 'orange' : ''}">${product.badge}</span>` : '';
+
+    card.innerHTML = `
+      <div class="card-media">
+        ${badgeHtml}
+        <img src="${product.image}" alt="${product.name}" loading="lazy">
+        <div class="card-action-overlay">
+          <button class="overlay-btn add-cart-trigger" title="Deploy To Bag"><ion-icon name="bag-handle-outline"></ion-icon></button>
+          <button class="overlay-btn add-wish-trigger" title="Save Blueprint"><ion-icon name="heart-outline"></ion-icon></button>
+          <button class="overlay-btn quick-view-trigger" title="Analyze Matrix"><ion-icon name="eye-outline"></ion-icon></button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="product-discipline">${product.brand} • ${product.discipline}</div>
+        <h3 class="product-title">${product.name}</h3>
+        <div class="price-box">
+          <span class="price-original">$${product.price.toFixed(2)}</span>
+        </div>
+      </div>
+    `;
+    mainShopGrid.appendChild(card);
+  });
+
+  attachDynamicCardEventListeners();
+}
+
+// ==========================================
+// COMPOSITIONAL FILTER COUPLING MECHANICS
+// ==========================================
+function executeCombinedFilters() {
+  let outputDataset = [...SPORTS_MOCK_DATA];
+
+  // 1. Core Discipline Bounds Check
+  if (currentDiscipline !== 'all') {
+    outputDataset = outputDataset.filter(p => p.discipline === currentDiscipline);
+  }
+
+  // 2. Secondary Brand Bounds Check
+  if (currentBrand !== 'all') {
+    outputDataset = outputDataset.filter(p => p.brand === currentBrand);
+  }
+
+  // 3. Search Engine Matrix Query Filter
+  if (catalogSearchInput && catalogSearchInput.value) {
+    const query = catalogSearchInput.value.toLowerCase().trim();
+    outputDataset = outputDataset.filter(p => p.name.toLowerCase().includes(query));
+  }
+
+  // 4. Execution Sorting Rules
+  if (sortDropdown) {
+    if (sortDropdown.value === 'Price: Low to High') {
+      outputDataset.sort((a, b) => a.price - b.price);
+    } else if (sortDropdown.value === 'Price: High to Low') {
+      outputDataset.sort((a, b) => b.price - a.price);
+    }
+  }
+
+  renderProductsGrid(outputDataset);
+}
+
+// Hooking Control Interfacings
+disciplineButtons.forEach(btn => {
+  btn.addEventListener('click', function() {
+    disciplineButtons.forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    currentDiscipline = this.getAttribute('data-filter');
+    executeCombinedFilters();
+  });
+});
+
+brandButtons.forEach(btn => {
+  btn.addEventListener('click', function() {
+    brandButtons.forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    currentBrand = this.getAttribute('data-brand');
+    executeCombinedFilters();
+  });
+});
+
+if (sortDropdown) sortDropdown.addEventListener('change', executeCombinedFilters);
+if (catalogSearchInput) catalogSearchInput.addEventListener('input', executeCombinedFilters);
+
+// ==========================================
+// DRAWER CONTENT INJECTION PIPELINES
+// ==========================================
+function renderCartDrawerList() {
+  if (!cartItemsContainer) return;
+  cartItemsContainer.innerHTML = '';
+  
+  if (cart.length === 0) {
+    cartItemsContainer.innerHTML = `<p class="cart-empty-message">No models deployed to cargo.</p>`;
+    if (cartSubtotalValue) cartSubtotalValue.innerText = '$0.00';
+    return;
+  }
+
+  let total = 0;
+  cart.forEach((item, idx) => {
+    total += item.price;
+    const row = document.createElement('div');
+    row.className = 'cart-item';
+    row.innerHTML = `
+      <img src="${item.image}" alt="" class="cart-item-img">
+      <div class="cart-item-details">
+        <h4 class="cart-item-name">${item.name}</h4>
+        <div class="cart-item-pricing">
+          <span class="cart-item-price">$${item.price.toFixed(2)}</span>
+          <button class="cart-item-remove" data-index="${idx}">Purge</button>
+        </div>
+      </div>
+    `;
+    cartItemsContainer.appendChild(row);
+  });
+
+  if (cartSubtotalValue) cartSubtotalValue.innerText = `$${total.toFixed(2)}`;
+  
+  document.querySelectorAll('.cart-item-remove').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const idx = parseInt(this.getAttribute('data-index'));
+      triggerToast(`Purged ${cart[idx].name}`);
+      cart.splice(idx, 1);
+      syncStorage('cart', cart, renderCartDrawerList);
+    });
+  });
+}
+
+function renderWishlistDrawerList() {
+  if (!wishlistItemsContainer) return;
+  wishlistItemsContainer.innerHTML = '';
+  
+  if (wishlist.length === 0) {
+    wishlistItemsContainer.innerHTML = `<p class="cart-empty-message">Saved blueprint terminal vacant.</p>`;
+    return;
+  }
+
+  wishlist.forEach((item, idx) => {
+    const row = document.createElement('div');
+    row.className = 'cart-item';
+    row.innerHTML = `
+      <img src="${item.image}" alt="" class="cart-item-img">
+      <div class="cart-item-details">
+        <h4 class="cart-item-name">${item.name}</h4>
+        <div class="cart-item-pricing">
+          <span class="cart-item-price">$${item.price.toFixed(2)}</span>
+          <button class="cart-item-remove remove-wish-trigger" data-index="${idx}">Delete</button>
+        </div>
+      </div>
+    `;
+    wishlistItemsContainer.appendChild(row);
+  });
+
+  document.querySelectorAll('.remove-wish-trigger').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const idx = parseInt(this.getAttribute('data-index'));
+      triggerToast(`Removed blueprint: ${wishlist[idx].name}`);
+      wishlist.splice(idx, 1);
+      syncStorage('wishlist', wishlist, renderWishlistDrawerList);
+    });
+  });
+}
+
+// UI State Sync Helpers
+function updateBadges() {
+  if (cartBadge) cartBadge.innerText = cart.length;
+  if (wishlistBadge) wishlistBadge.innerText = wishlist.length;
+}
+
+function syncStorage(key, dataArray, renderCallback) {
+  localStorage.setItem(key, JSON.stringify(dataArray));
+  updateBadges();
+  renderCallback();
+}
+
+// Dynamic Action Listeners Attachment Bounder
+function attachDynamicCardEventListeners() {
+  document.querySelectorAll('.product-card').forEach(card => {
+    const id = card.getAttribute('data-id');
+    const product = SPORTS_MOCK_DATA.find(p => p.id === id);
+
+    card.querySelector('.add-cart-trigger').addEventListener('click', (e) => {
+      e.stopPropagation();
+      cart.push(product);
+      triggerToast("Model Deployed to Cargo Bag!");
+      syncStorage('cart', cart, renderCartDrawerList);
+    });
+
+    card.querySelector('.add-wish-trigger').addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (!wishlist.some(item => item.id === product.id)) {
+        wishlist.push(product);
+        triggerToast("Spec Variant Blueprints Locked!");
+        syncStorage('wishlist', wishlist, renderWishlistDrawerList);
+      } else {
+        triggerToast("Specification Blueprint Already Logged.");
+      }
+    });
+
+    card.querySelector('.quick-view-trigger').addEventListener('click', (e) => {
+      e.stopPropagation();
+      openQuickViewModal(product);
+    });
+  });
+}
+
+// Modal System Logic Panel Control
+function openQuickViewModal(product) {
+  activeModalProduct = product;
+  document.getElementById('modal-target-img').src = product.image;
+  document.getElementById('modal-target-brand').innerText = `${product.brand.toUpperCase()} LAB SERIES`;
+  document.getElementById('modal-target-name').innerText = product.name;
+  document.getElementById('modal-target-price').innerText = `$${product.price.toFixed(2)}`;
+  
+  if (productQuickModal) productQuickModal.classList.add('open');
+  if (globalScrim) globalScrim.classList.add('visible');
+}
+
+function closeAllOverlays() {
+  if (productQuickModal) productQuickModal.classList.remove('open');
+  if (cartPanel) cartPanel.classList.remove('open');
+  if (wishlistPanel) wishlistPanel.classList.remove('open');
+  if (globalScrim) globalScrim.classList.remove('visible');
+  if (navMenu) navMenu.classList.remove('active');
+}
+
+// Application Panels Activation Map Interfacings
+if (cartToggleBtn) cartToggleBtn.addEventListener('click', () => { cartPanel.classList.add('open'); globalScrim.classList.add('visible'); });
+if (wishlistToggleBtn) wishlistToggleBtn.addEventListener('click', () => { wishlistPanel.classList.add('open'); globalScrim.classList.add('visible'); });
+if (menuToggleBtn) menuToggleBtn.addEventListener('click', () => { navMenu.classList.toggle('active'); globalScrim.classList.toggle('visible'); });
+
+[closeModalBtnX, closeCartBtn, closeWishlistBtn, globalScrim].forEach(el => {
+  if (el) el.addEventListener('click', closeAllOverlays);
+});
+
+if (modalAddToCartAction) {
+  modalAddToCartAction.addEventListener('click', () => {
+    if (activeModalProduct) {
+      cart.push(activeModalProduct);
+      syncStorage('cart', cart, renderCartDrawerList);
+      triggerToast("Model Deployed to Cargo Bag!");
+      closeAllOverlays();
+    }
+  });
+}
+
+function triggerToast(message) {
+  const wrapper = document.getElementById('toast-wrapper');
+  if (!wrapper) return;
+  const toast = document.createElement('div');
+  toast.className = 'toast-notification';
+  toast.innerText = message;
+  wrapper.appendChild(toast);
+  setTimeout(() => {
+    toast.style.transition = 'opacity 0.4s ease';
+    toast.style.opacity = '0';
+    setTimeout(() => toast.remove(), 400);
+  }, 3000);
+}
+
+// Production DOM Lifecycle Initialization Protection Wrapper
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
+  </script>
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Orders - Footcap</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       RESET & SYSTEM CONFIGURATION
+       ========================================================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    :root {
+      --bg-main: #ffffff;
+      --bg-surface: #f8f9fa;
+      --border-color: #e4e7eb;
+      --text-main: #1d2022;
+      --text-muted: #64748b;
+      --accent-red: #d91a24;
+      --focus-glow: rgba(217, 26, 36, 0.08);
+      --badge-green: #10b981;
+    }
+
+    body {
+      background-color: var(--bg-surface);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    /* ==========================================================================
+       CONTAINER WRAPPER FRAME
+       ========================================================================== */
+    .orders-section {
+      max-width: 1000px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .page-title {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 35px;
+      color: var(--text-main);
+    }
+
+    /* ==========================================================================
+       PREMIUM DYNAMIC ORDER CARDS
+       ========================================================================== */
+    #orders-container {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .order-card {
+      background-color: var(--bg-main);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .order-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Meta Metadata Grid Splitter Header */
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .customer-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .order-date {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .meta-right {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+    /* Status Pill Badges */
+    .status-badge {
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      padding: 6px 12px;
+      background-color: rgba(16, 185, 129, 0.1);
+      color: var(--badge-green);
+      border-radius: 20px;
+      display: inline-block;
+    }
+
+    .payment-method {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* Logistics Address Banner Box */
+    .delivery-destination {
+      background-color: var(--bg-surface);
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-size: 14px;
+      color: var(--text-main);
+      font-weight: 500;
+      margin-bottom: 24px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .delivery-destination strong {
+      color: var(--text-muted);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    /* Product Sub-List Nesting */
+    .product-list-wrapper {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .product-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-main);
+      padding: 4px 0;
+    }
+
+    .product-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Small decorative prefix dots mimicking clean checkboxes */
+    .product-title::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background-color: var(--accent-red);
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .product-cost {
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* Empty Zero State Fallback UI */
+    .zero-orders-notice {
+      text-align: center;
+      padding: 80px 40px;
+      background: var(--bg-main);
+      border-radius: 24px;
+      border: 1px dashed var(--border-color);
+    }
+
+    .zero-orders-notice h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    /* ==========================================================================
+       RESPONSIVE MATRIX RULES
+       ========================================================================== */
+    @media (max-width: 576px) {
+      body {
+        padding: 24px 16px;
+      }
+      .order-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .meta-right {
+        text-align: left;
+        align-items: flex-start;
+      }
+      .order-card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="orders-section">
+    <h1 class="page-title">My Orders</h1>
+
+    <div id="orders-container">
+      </div>
+  </section>
+
+  <script src="./orders.js"></script>
+
+</body>
+</html>

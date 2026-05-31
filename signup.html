@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join the Club - Footcap</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       RESET & SYSTEM VARIABLES
+       ========================================================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    :root {
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8f9fa;
+      --border-color: #e4e7eb;
+      --text-main: #1d2022;
+      --text-muted: #64748b;
+      --accent-red: #d91a24;
+      --focus-glow: rgba(217, 26, 36, 0.12);
+      --input-bg: #ffffff;
+      --card-shadow: 0 30px 60px rgba(29, 32, 34, 0.05);
+    }
+
+    body {
+      background-color: var(--bg-secondary);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      overflow-x: hidden;
+    }
+
+    /* ==========================================================================
+       PREMIUM STRUCTURED SIGNUP PANEL
+       ========================================================================== */
+    .signup-container {
+      max-width: 480px;
+      width: 100%;
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: var(--card-shadow);
+      
+      /* Entry Animation */
+      opacity: 0;
+      transform: translateY(20px);
+      animation: cardReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Brand Header Accents */
+    .brand-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .brand-logo {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: inline-block;
+    }
+
+    .brand-logo span {
+      color: var(--accent-red);
+    }
+
+    .form-title {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .form-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* ==========================================================================
+       FORM ELEMENTS & INTERACTION LAYER
+       ========================================================================== */
+    .form-group {
+      position: relative;
+      margin-bottom: 24px;
+      width: 100%;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 18px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border-color);
+      background-color: var(--input-bg);
+      color: var(--text-main);
+      font-size: 15px;
+      font-weight: 500;
+      outline: none;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Floating Label System */
+    .form-group label {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 14px;
+      pointer-events: none;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      background-color: transparent;
+    }
+
+    /* Label active transitions */
+    .form-group input:focus ~ label,
+    .form-group input:not(:placeholder-shown) ~ label {
+      top: 0;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--accent-red);
+      padding: 0 6px;
+      background-color: var(--bg-primary);
+    }
+
+    /* Dynamic Border Polish */
+    .form-group input:focus {
+      border-color: var(--accent-red);
+      box-shadow: 0 0 0 4px var(--focus-glow);
+    }
+
+    /* Terms checkbox architecture */
+    .terms-wrapper {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 32px;
+      cursor: pointer;
+    }
+
+    .terms-wrapper input[type="checkbox"] {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      outline: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      background-color: var(--input-bg);
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .terms-wrapper input[type="checkbox"]:checked {
+      background-color: var(--text-main);
+      border-color: var(--text-main);
+    }
+
+    .terms-wrapper input[type="checkbox"]:checked::after {
+      content: '✓';
+      color: var(--bg-primary);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .terms-text {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.4;
+      user-select: none;
+    }
+
+    .terms-text a {
+      color: var(--text-main);
+      text-decoration: underline;
+      font-weight: 600;
+    }
+
+    /* ==========================================================================
+       SUBMIT ACTION LAYER
+       ========================================================================== */
+    .btn-signup {
+      width: 100%;
+      padding: 18px;
+      border: none;
+      border-radius: 14px;
+      background-color: var(--text-main);
+      color: var(--bg-primary);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      margin-bottom: 24px;
+    }
+
+    .btn-signup:hover {
+      background-color: var(--accent-red);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px var(--focus-glow);
+    }
+
+    .btn-signup:active {
+      transform: translateY(0);
+    }
+
+    .footer-redirect {
+      text-align: center;
+      font-size: 14px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .footer-redirect a {
+      color: var(--accent-red);
+      text-decoration: none;
+      font-weight: 700;
+      margin-left: 4px;
+      transition: text-decoration 0.2s ease;
+    }
+
+    .footer-redirect a:hover {
+      text-decoration: underline;
+    }
+
+    /* ==========================================================================
+       ANIMATIONS TIMELINES
+       ========================================================================== */
+    @keyframes cardReveal {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ==========================================================================
+       RESPONSIVE MATRIX
+       ========================================================================== */
+    @media (max-width: 576px) {
+      body {
+        padding: 16px;
+        background-color: var(--bg-primary);
+      }
+      .signup-container {
+        padding: 24px 8px;
+        border: none;
+        box-shadow: none;
+      }
+      .form-title {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ROOT PANEL ENGINE CONTAINER -->
+  <main class="signup-container">
+    
+    <div class="brand-header">
+      <div class="brand-logo">Foot<span>cap</span></div>
+      <h1 class="form-title">Create your account</h1>
+      <p class="form-subtitle">Join the inner circle for exclusive sneaker drops.</p>
+    </div>
+
+    <form id="signup-form">
+      
+      <!-- INPUT: FULL NAME -->
+      <div class="form-group">
+        <input type="text" id="username" placeholder=" " required autocomplete="name">
+        <label for="username">Full Name</label>
+      </div>
+
+      <!-- INPUT: EMAIL ADDRESS -->
+      <div class="form-group">
+        <input type="email" id="email" placeholder=" " required autocomplete="email">
+        <label for="email">Email Address</label>
+      </div>
+
+      <!-- INPUT: SECURE PASSWORD -->
+      <div class="form-group">
+        <input type="password" id="password" placeholder=" " required autocomplete="new-password">
+        <label for="password">Password</label>
+      </div>
+
+      <!-- POLICY AGREEMENT ACTION ROW -->
+      <label class="terms-wrapper" for="agree-terms">
+        <input type="checkbox" id="agree-terms" required>
+        <span class="terms-text">I certify that I agree to the Footcap <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</span>
+      </label>
+
+      <!-- INTERACTIVE TRIGGER CTA -->
+      <button type="submit" class="btn-signup">Create Account</button>
+
+      <p class="footer-redirect">
+        Already have an account?<a href="login.html">Sign In</a>
+      </p>
+
+    </form>
+  </main>
+
+  <script>
+    document.getElementById("signup-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const userData = {
+        name: document.getElementById("username").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        dateCreated: new Date().toISOString()
+      };
+
+      // Save user metrics locally for state tracking across views
+      localStorage.setItem("activeUser", JSON.stringify(userData));
+
+      // Visual success confirmation notice
+      alert(`Welcome to Footcap, ${userData.name}! Account processed successfully.`);
+      
+      // Route the user back to the shopping grid index instantly
+      window.location.href = "index.html";
+    });
+  </script>
+
+</body>
+</html>
