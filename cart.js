@@ -13,6 +13,9 @@ function displayCart() {
   let total = 0;
 
   if (cart.length === 0) {
+    //  FIX: Synchronize the empty array to storage immediately
+    localStorage.setItem("cart", JSON.stringify([]));
+
     cartItemsContainer.innerHTML = `
       <div class="empty-cart-state">
         <h2>Your bag is currently empty.</h2>
@@ -59,7 +62,7 @@ function displayCart() {
     `;
   });
 
-  // Synchronize memory cache
+  // Synchronize memory cache for non-empty carts
   localStorage.setItem("cart", JSON.stringify(cart));
   
   // Set accurate display metrics

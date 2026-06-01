@@ -3,19 +3,37 @@
 /* =========================
    LOCAL STORAGE & STATE
 ========================= */
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+const getFreshCart = () => {
+  const stored = localStorage.getItem("cart");
+  if (!stored) return [];
+  try {
+    return JSON.parse(stored);
+  } catch (e) {
+    console.error("Cart corrupted, resetting...");
+    return [];
+  }
+};
+
+let cart = getFreshCart();
 let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
 let currentQuickProduct = null;
 
 // Initial state load
 document.addEventListener("DOMContentLoaded", () => {
+  cart = getFreshCart(); // Fetch right at render time to avoid stale cache
   updateCounts();
 });
 
-window.addEventListener("storage", () => {
-  cart = JSON.parse(localStorage.getItem("cart")) || [];
-  wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-  updateCounts();
+// Sync changes smoothly if multiple tabs are open or cart.html updates storage
+window.addEventListener("storage", (e) => {
+  if (e.key === "cart" || e.key === null) {
+    cart = getFreshCart();
+    updateCounts();
+  }
+  if (e.key === "wishlist" || e.key === null) {
+    wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    updateCounts();
+  }
 });
 
 /* =========================
